@@ -10,7 +10,13 @@ class News extends CI_Controller{
 	}
 
 	function index(){
-		$data['index']	= $this->news_model->get_news();
+		$data['news']	= $this->news_model->get_news();
+		$data['title'] = 'News archive';
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('news/index', $data);
+		$this->load->view('templates/footer');
+
 	}
 
 	function view($slug = NULL){
@@ -19,10 +25,10 @@ class News extends CI_Controller{
 			show_404();
 		}
 
-		$data['title'] = 'News archive';
+		$data['title'] = $data['news_item']['title'];
 
 		$this->load->view('templates/header', $data);
-		$this->load->view('news/index', $data);
+		$this->load->view('news/view', $data);
 		$this->load->view('templates/footer');
 	}
 
@@ -36,14 +42,14 @@ class News extends CI_Controller{
 		$this->form_validation->set_rules('text', 'Text', 'required');
 
 		if($this->form_validation->run() === FALSE){
-			$this->load->view('templates/header');
+			$this->load->view('templates/header', $data);
 			$this->load->view('news/create');
 			$this->load->view('templates/footer');
-
 		}
 		else {
 			$this->news_model->set_news();
 			$this->load->view('news/success');
 		}
 	}
+
 }
