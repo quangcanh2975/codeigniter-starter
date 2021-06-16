@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class News extends MY_Controller{
+class News extends MY_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -11,11 +12,11 @@ class News extends MY_Controller{
 		$this->load->library('form_validation');
 	}
 
-	function index(){
-		if( $this->verify_min_level(1) ){
+	function index()
+	{
+		if ($this->verify_min_level(1)) {
 			$this->setup_login_form(TRUE);
-		}
-		else {
+		} else {
 			$data['news']	= $this->news_model->get_news();
 			$data['title'] = 'Latest posts';
 
@@ -25,10 +26,11 @@ class News extends MY_Controller{
 		}
 	}
 
-	function view($slug = NULL){
-		$data['news_item']= $this->news_model->get_news($slug);
+	function view($slug = NULL)
+	{
+		$data['news_item'] = $this->news_model->get_news($slug);
 
-		if(empty($data['news_item'])){
+		if (empty($data['news_item'])) {
 			show_404();
 		}
 
@@ -43,55 +45,70 @@ class News extends MY_Controller{
 		$this->load->view('templates/footer');
 	}
 
-	public function create(){
-
-		$data['title']='Create news item';
+	public function create()
+	{
+		$data['title'] = 'Create news item';
 		$data['categories'] = $this->news_model->get_categories();
 
 		$this->form_validation->set_rules('title', 'Title', 'required');
 		$this->form_validation->set_rules('text', 'Text', 'required');
 
-		if($this->form_validation->run() === FALSE){
+		if ($this->form_validation->run() === FALSE) {
 			$this->load->view('templates/header', $data);
 			$this->load->view('news/create', $data);
 			$this->load->view('templates/footer');
+		} else {
 
-		}
-		else {
-			$this->news_model->set_news();
+			// configure for upload file
+			$config['upload_path']          = './assets/images/posts';
+			$config['allowed_types']        = 'gif|jpg|png';
+			$config['max_size']             = 100;
+			$config['max_width']            = 1024;
+			$config['max_height']           = 768;
+
+			$this->load->library('upload', $config);
+
+			if (!$this->upload->do_upload('userfile')) {
+				$error = array('error' => $this->upload->display_errors());
+				print_r($error);
+				$post_image = 'noimage.jpg';
+			} else {
+				$data = array('upload_data' => $this->upload->data());
+				print_r($_FILES);
+				$post_image = $_FILES['userfile']['name'];
+			}
+			print_r($post_image);
+			$this->news_model->set_news($post_image);
 			redirect('/news');
 		}
 	}
 
-	public function delete($id){
+	public function delete($id)
+	{
 		$this->news_model->delete_news($id);
 		redirect('news');
 	}
 
-	public function edit($slug){
+	public function edit($slug)
+	{
 		$data['title'] = 'Edit news';
 		$data['categories'] = $this->news_model->get_categories();
 
 		$this->form_validation->set_rules('title', 'Title', 'required');
 		$this->form_validation->set_rules('text', 'Text', 'required');
 
-		$data['news_item']= $this->news_model->get_news($slug);
+		$data['news_item'] = $this->news_model->get_news($slug);
 
-		if(empty($data['news_item'])){
+		if (empty($data['news_item'])) {
 			return show_404();
 		}
-		if($this->form_validation->run() === FALSE){
+		if ($this->form_validation->run() === FALSE) {
 			$this->load->view('templates/header', $data);
 			$this->load->view('news/edit', $data);
 			$this->load->view('templates/footer');
-		}
-		else {
+		} else {
 			$this->news_model->update();
 			redirect('/news');
 		}
-
-	}
-
-	public function update(){
 	}
 }
