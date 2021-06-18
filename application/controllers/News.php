@@ -1,29 +1,16 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class News extends MY_Controller
+class News extends CI_Controller
 {
-	public function __construct()
-	{
-		parent::__construct();
-		$this->load->model('news_model');
-		$this->load->helper('url_helper');
-		$this->load->helper('form');
-		$this->load->library('form_validation');
-	}
-
 	function index()
 	{
-		if ($this->verify_min_level(1)) {
-			$this->setup_login_form(TRUE);
-		} else {
-			$data['news']	= $this->news_model->get_news();
-			$data['title'] = 'Latest posts';
+		$data['news']	= $this->news_model->get_news();
+		$data['title'] = 'Latest posts';
 
-			$this->load->view('templates/header', $data);
-			$this->load->view('news/index', $data);
-			$this->load->view('templates/footer');
-		}
+		$this->load->view('templates/header', $data);
+		$this->load->view('news/index', $data);
+		$this->load->view('templates/footer');
 	}
 
 	function view($slug = NULL)
@@ -79,6 +66,7 @@ class News extends MY_Controller
 			}
 			print_r($post_image);
 			$this->news_model->set_news($post_image);
+			$this->session->set_flashdata('post_created', 'Your post created');
 			redirect('/news');
 		}
 	}
@@ -86,6 +74,7 @@ class News extends MY_Controller
 	public function delete($id)
 	{
 		$this->news_model->delete_news($id);
+		$this->session->set_flushdata('post_deleted', 'Your post has been deleted');
 		redirect('news');
 	}
 
@@ -108,6 +97,7 @@ class News extends MY_Controller
 			$this->load->view('templates/footer');
 		} else {
 			$this->news_model->update();
+			$this->session->set_flashdata('post_updated', 'Your post has been updated');
 			redirect('/news');
 		}
 	}
