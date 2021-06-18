@@ -8,8 +8,11 @@ class News_model extends CI_Model
 		$this->load->helper('url');
 	}
 
-	public function get_news($slug = FALSE)
+	public function get_news($slug = FALSE, $limit = FALSE, $offset = FALSE)
 	{
+		if ($limit) {
+			$this->db->limit($limit, $offset);
+		}
 		if ($slug == FALSE) {
 			$this->db->order_by('news.id', 'DESC');
 			$this->db->join('categories', 'categories.id = news.category_id');

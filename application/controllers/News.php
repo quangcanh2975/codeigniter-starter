@@ -3,9 +3,25 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class News extends CI_Controller
 {
-	function index()
+	public function	__construct()
 	{
-		$data['news']	= $this->news_model->get_news();
+		parent::__construct();
+		// make sure user logged in before access to posts
+		if (!$this->session->userdata('logged_in')) {
+			redirect('users/login');
+		}
+	}
+	function index($offset = 0)
+	{
+		// config for pagination
+		$config['base_url'] = base_url() . 'news/index/';
+		$config['total_rows'] = $this->db->count_all('news');
+		$config['per_page'] = 3;
+		$config['uri_segment'] = 3;
+		$config['attributes'] = array('class' => 'pagination-link');
+
+		$this->pagination->initialize($config);
+		$data['news']	= $this->news_model->get_news(FALSE, $config['per_page'], $offset);
 		$data['title'] = 'Latest posts';
 
 		$this->load->view('templates/header', $data);

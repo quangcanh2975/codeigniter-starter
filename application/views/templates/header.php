@@ -37,9 +37,6 @@
     </div>
   </nav>
 
-  <?php print_r($this->session->flashdata('loggedin')); ?>
-  <?php print_r($this->session->flashdata('user_loggedin')); ?>
-
   <div class="container">
     <!-- Flash message -->
     <?php if ($this->session->flashdata('user_registered')) : ?>
