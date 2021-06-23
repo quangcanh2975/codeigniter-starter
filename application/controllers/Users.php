@@ -1,11 +1,9 @@
 <?php
+
+require_once 'routes.php';
+
 class Users extends CI_Controller
 {
-    public function __contruct()
-    {
-        parent::__construct();
-    }
-
     public function register()
     {
         $data['title'] = "Sign Up";
@@ -17,9 +15,9 @@ class Users extends CI_Controller
         $this->form_validation->set_rules('password2', 'Confirm password', 'matches[password]');
 
         if ($this->form_validation->run() == FALSE) {
-            $this->load->view('templates/header');
-            $this->load->view('users/register', $data);
-            $this->load->view('templates/footer');
+            $this->load->view(TEMPLATE_HEADER);
+            $this->load->view(USER_REGISTER, $data);
+            $this->load->view(TEMPLATE_FOOTER);
         } else {
             $enc_password = md5($this->input->post('password'));
 
@@ -27,7 +25,7 @@ class Users extends CI_Controller
 
             $this->session->set_flashdata('user_registered', 'You are now registered and can log in');
 
-            redirect('news');
+            redirect('/blog');
         }
     }
 
@@ -58,9 +56,9 @@ class Users extends CI_Controller
         $this->form_validation->set_rules('password', 'Password', 'required');
 
         if ($this->form_validation->run() == FALSE) {
-            $this->load->view('templates/header');
-            $this->load->view('users/login', $data);
-            $this->load->view('templates/footer');
+            $this->load->view(TEMPLATE_HEADER);
+            $this->load->view(USER_LOGIN, $data);
+            $this->load->view(TEMPLATE_FOOTER);
         } else {
             $username = $this->input->post('username');
             $enc_password = md5($this->input->post('password'));
@@ -71,10 +69,10 @@ class Users extends CI_Controller
                 $user_data = array('user_id' => $user_id, 'username' => $username, 'logged_in' => true);
                 $this->session->set_userdata($user_data);
                 $this->session->set_flashdata('user_loggedin', 'You are now logged in');
-                redirect('news');
+                redirect('/blog');
             } else {
                 $this->session->set_flashdata('login_failed', 'Your username or password is not correct');
-                redirect('users/login');
+                redirect();
             }
         }
     }
@@ -86,6 +84,6 @@ class Users extends CI_Controller
         $this->session->unset_userdata('username');
 
         $this->session->set_flashdata('logged_out', 'You has been logged out');
-        redirect('users/login');
+        redirect(USER_LOGIN);
     }
 }

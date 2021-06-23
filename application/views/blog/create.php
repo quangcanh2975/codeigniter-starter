@@ -1,6 +1,6 @@
 <h2><?php echo $title; ?></h2>
 <?php echo validation_errors(); ?>
-<?php echo form_open_multipart('news/create'); ?>
+<?php echo form_open_multipart('blog/create'); ?>
 <div class="form-group">
 
 	<label for="title">Title</label>
@@ -30,6 +30,6 @@
 	<input type="file" name="userfile" size="20" />
 </div>
 
-<input type="submit" name="submit" value="Create news item" />
+<input type="submit" name="submit" value="Create" />
 
 </form>

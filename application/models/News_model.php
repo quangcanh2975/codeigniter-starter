@@ -1,13 +1,6 @@
 <?php
 class News_model extends CI_Model
 {
-	public function __construct()
-	{
-		parent::__construct();
-		$this->load->database();
-		$this->load->helper('url');
-	}
-
 	public function get_news($slug = FALSE, $limit = FALSE, $offset = FALSE)
 	{
 		if ($limit) {

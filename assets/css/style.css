@@ -48,3 +48,9 @@ a.pagination-link{
 	background: #f4f4f4;
 	border: 1px #ccc solid;
 }
+
+.container {
+	width: auto;
+	max-width: 680px;
+	padding: 0 15px;
+}
