@@ -13,15 +13,14 @@ class Comment_model extends CI_Model
         return $query->result_array();
     }
 
-    public function set_comment($user_id)
+    public function set_comment($user_id, $email)
     {
         $data = array(
             "post_id" => $this->input->post('post_id'),
-            "email" => $this->input->post('email'),
+            "email" => $email,
             "content" => $this->input->post('comment_content'),
             "user_id" => $user_id
         );
-        $query = $this->db->insert('comments', $data);
-        print_r($query);
+        return $this->db->insert('comments', $data);
     }
 }

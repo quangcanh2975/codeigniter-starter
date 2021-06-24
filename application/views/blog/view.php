@@ -6,7 +6,7 @@
 <div class="bd-content ps-lg-4">
 	<p><?php echo $post['content'] ?></p>
 </div>
-<?php if ($this->session->flashdata('user_loggedin')) : ?>
+<?php if (array_key_exists('user_id', $this->session->userdata())) : ?>
 	<div class="bd-content ps-lg-4">
 		<a class="btn btn-primary pull-left" href="/blog/edit/<?php echo $post['slug']; ?>">Edit</a>
 
@@ -14,12 +14,11 @@
 		<input type="submit" value="Delete" class="btn btn-danger">
 		</form>
 	</div>
-	<?php echo form_open('comments/create') ?>
+	<?php echo form_open('comment/create', '', array("post_id" => $post['id'], "post_slug" => $post['slug'])) ?>
 	<div class="form-group">
-		<input type="hidden" name="post_id" value="<?php echo $post['id']; ?>" />
 		<div class="mb-3">
 			<label class="form-label" for="email">Email</label>
-			<input type="email" name="email" id="" />
+			<input type="text" disabled name="email" value="<?php echo ($this->session->userdata())['username']; ?>" />
 		</div>
 		<div class="mb-3">
 			<label class="form-label" for="text">Comments</label>
@@ -31,14 +30,12 @@
 	<?php form_close() ?>
 <?php endif; ?>
 
-<?php if (!$this->session->flashdata('user_loggedin')) : ?>
-	<?php echo form_open('comment/create') ?>
+<?php if (!array_key_exists('user_id', $this->session->userdata())) : ?>
+	<?php echo form_open('comment/create', '', array("post_id" => $post['id'], "post_slug" => $post['slug'])) ?>
 	<div class="form-group">
-		<input type="hidden" name="post_id" value="<?php echo $post['id']; ?>" />
-		<input type="hidden" name="post_slug" value="<?php echo $post['slug']; ?>" />
 		<div class="mb-3">
 			<label class="form-label" for="email">Email</label>
-			<input type="email" name="email" id="" />
+			<input type="email" name="email" />
 		</div>
 		<div class="mb-3">
 			<label class="form-label" for="text">Comments</label>
