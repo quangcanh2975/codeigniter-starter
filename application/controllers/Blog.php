@@ -8,6 +8,7 @@ class Blog extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->language('blog');
+		$this->load->model('comment_model');
 	}
 
 	function index($offset = 0)
@@ -30,6 +31,7 @@ class Blog extends CI_Controller
 	function view($slug = NULL)
 	{
 		$data['post'] = $this->posts_model->get_posts($slug);
+		$data['post_comments'] = $this->comment_model->get_comments($slug);
 
 		if (empty($data['post'])) {
 			show_404();
@@ -55,7 +57,6 @@ class Blog extends CI_Controller
 
 	public function create()
 	{
-		// return $this->posts_model->create_multiple_posts();
 		$this->checkUserLoggedIn();
 		$data['title'] = 'Create post';
 		$data['categories'] = $this->posts_model->get_categories();
