@@ -7,6 +7,7 @@ define('BLOG_VIEW', 'blog/view');
 define('BLOG_CREATE', 'blog/create');
 define('BLOG_DELETE', 'blog/delete');
 define('BLOG_EDIT', 'blog/edit');
+define('BLOG_SEARCH', 'blog/search');
 
 // TEMPLATE CONSTATNS
 define('TEMPLATE_HEADER', 'templates/header');

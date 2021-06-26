@@ -40,8 +40,8 @@
           <?php endif; ?>
         </ul>
       </div>
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="<?php echo lang('search'); ?>" aria-label="Search">
+      <form class="d-flex" action="/search/posts" method="get">
+        <input class="form-control me-2" type="search" placeholder="<?php echo lang('search'); ?>" aria-label="Search" name="q">
         <button class="btn btn-outline-success" type="submit"><?php echo lang('search'); ?></button>
       </form>
     </div>

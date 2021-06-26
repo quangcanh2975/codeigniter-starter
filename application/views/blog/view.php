@@ -1,6 +1,7 @@
 <div class="bd-intro ps-lg-4">
 	<h1 class="bd-title"><?php echo $post['title'] ?></h1>
 	<p class="bd-lead"><?php echo $post['category']; ?></p>
+	<img src="<?php echo $post['post_image'] ?>" class="img-fluid" />
 </div>
 
 <div class="bd-content ps-lg-4">
