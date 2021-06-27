@@ -11,7 +11,7 @@ class Blog extends CI_Controller
 		$this->load->model('comment_model');
 	}
 
-	function index($offset = 0)
+	function index($offset = 1)
 	{
 		// config for pagination
 		$config['base_url'] = base_url() . BLOG;
@@ -19,9 +19,10 @@ class Blog extends CI_Controller
 		$config['per_page'] = 3;
 		$config['uri_segment'] = 3;
 		$config['attributes'] = array('class' => 'pagination-link');
+		$config['use_page_numbers'] = TRUE;
 
 		$this->pagination->initialize($config);
-		$data['posts']	= $this->posts_model->get_posts(FALSE, $config['per_page'], $offset);
+		$data['posts']	= $this->posts_model->get_posts(FALSE, $config['per_page'], ($offset - 1) * $config['per_page']);
 
 		$this->load->view(TEMPLATE_HEADER, $data);
 		$this->load->view(BLOG_INDEX, $data);
