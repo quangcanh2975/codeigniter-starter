@@ -1,5 +1,5 @@
 <?php
-class User_model extends CI_Model 
+class User_model extends CI_Model
 {
     public function __construct()
     {
@@ -42,7 +42,7 @@ class User_model extends CI_Model
         $this->db->where('password', $enc_password);
         $result = $this->db->get('users');
         if ($result->num_rows() == 1) {
-            return $result->row(0)->id;
+            return $result->row(0)->username;
         }
         return false;
     }

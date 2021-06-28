@@ -14,19 +14,9 @@ class Users extends CI_Controller
         $this->form_validation->set_rules('password', 'Password', 'required');
         $this->form_validation->set_rules('password2', 'Confirm password', 'matches[password]');
 
-        if ($this->form_validation->run() == FALSE) {
-            $this->load->view(TEMPLATE_HEADER);
-            $this->load->view(USER_REGISTER, $data);
-            $this->load->view(TEMPLATE_FOOTER);
-        } else {
-            $enc_password = md5($this->input->post('password'));
-
-            $this->user_model->register($enc_password);
-
-            $this->session->set_flashdata('user_registered', 'You are now registered and can log in');
-
-            redirect('/blog');
-        }
+        $this->load->view(TEMPLATE_HEADER);
+        $this->load->view(USER_REGISTER, $data);
+        $this->load->view(TEMPLATE_FOOTER);
     }
 
     function check_username_exists($username)

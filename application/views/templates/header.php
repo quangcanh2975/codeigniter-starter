@@ -66,10 +66,6 @@
         <?php echo '<p class="alert alert-success">' . $this->session->flashdata('post_deleted') . '</p>'; ?>
       <?php endif; ?>
 
-      <?php if ($this->session->flashdata('user_registered')) : ?>
-        <?php echo '<p class="alert alert-success">' . $this->session->flashdata('user_registered') . '</p>'; ?>
-      <?php endif; ?>
-
       <?php if ($this->session->flashdata('user_loggedin')) : ?>
         <?php echo '<p class="alert alert-success">' . $this->session->flashdata('user_loggedin') . '</p>'; ?>
       <?php endif; ?>
