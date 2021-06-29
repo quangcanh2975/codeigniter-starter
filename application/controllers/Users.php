@@ -42,16 +42,16 @@ class Users extends CI_Controller
 
         $data['title'] = "Sign In";
 
-        $this->form_validation->set_rules('username', 'Username', 'required');
-        $this->form_validation->set_rules('password', 'Password', 'required');
+        $this->form_validation->set_rules('usr', 'Username', 'required');
+        $this->form_validation->set_rules('pwd', 'Password', 'required');
 
         if ($this->form_validation->run() == FALSE) {
             $this->load->view(TEMPLATE_HEADER);
             $this->load->view(USER_LOGIN, $data);
             $this->load->view(TEMPLATE_FOOTER);
         } else {
-            $username = $this->input->post('username');
-            $enc_password = md5($this->input->post('password'));
+            $username = $this->input->post('usr');
+            $enc_password = md5($this->input->post('pwd'));
 
             $user_id = $this->user_model->login($username, $enc_password);
 
