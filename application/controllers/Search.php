@@ -12,7 +12,6 @@ class Search extends CI_Controller
 
     public function posts()
     {
-        print_r($this->input->get('q'));
         $data = array();
         $data['search_results'] = $this->posts_model->search_post();
         $this->load->view(TEMPLATE_HEADER);

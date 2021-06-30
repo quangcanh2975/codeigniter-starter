@@ -45,26 +45,9 @@ class Users extends CI_Controller
         $this->form_validation->set_rules('usr', 'Username', 'required');
         $this->form_validation->set_rules('pwd', 'Password', 'required');
 
-        if ($this->form_validation->run() == FALSE) {
-            $this->load->view(TEMPLATE_HEADER);
-            $this->load->view(USER_LOGIN, $data);
-            $this->load->view(TEMPLATE_FOOTER);
-        } else {
-            $username = $this->input->post('usr');
-            $enc_password = md5($this->input->post('pwd'));
-
-            $user_id = $this->user_model->login($username, $enc_password);
-
-            if ($user_id) {
-                $user_data = array('user_id' => $user_id, 'username' => $username, 'logged_in' => true);
-                $this->session->set_userdata($user_data);
-                $this->session->set_flashdata('user_loggedin', 'You are now logged in');
-                redirect('/blog');
-            } else {
-                $this->session->set_flashdata('login_failed', 'Your username or password is not correct');
-                redirect();
-            }
-        }
+        $this->load->view(TEMPLATE_HEADER);
+        $this->load->view(USER_LOGIN, $data);
+        $this->load->view(TEMPLATE_FOOTER);
     }
 
     public function logout()

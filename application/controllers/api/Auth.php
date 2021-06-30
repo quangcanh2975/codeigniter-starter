@@ -23,23 +23,22 @@ class Auth extends REST_Controller
 
     public function login_post()
     {
-        $username = $this->input->post('username');
-        $enc_password  = md5($this->input->post('password'));
+        $username = $this->input->post('usr');
+        $enc_password  = md5($this->input->post('pwd'));
 
         $username =  $this->user_model->login($username, $enc_password);
-
         if ($username) {
             $this->response(Authorization::generateToken($this->createJWTPayload($username)), REST_Controller::HTTP_OK);
             if ($this->agent->is_browser()) {
                 $user_data = array('username' => $username, 'logged_in' => true);
                 $this->session->set_userdata($user_data);
                 $this->session->set_flashdata('user_loggedin', 'You are now logged in');
-                redirect();
+                redirect('blog');
             }
         } else {
             $this->response('Login failed', REST_Controller::HTTP_BAD_REQUEST);
             if ($this->agent->is_browser()) {
-                redirect();
+                redirect('login');
             }
         }
     }
